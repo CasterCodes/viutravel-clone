@@ -1,0 +1,85 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+model User {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  username  String   @unique 
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model Offer {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  discount    Float
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Define a field for the accommodation reference
+  accommodation Accommodation?
+}
+
+
+// Define the Destination model
+model Destination {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  name        String 
+  description String
+  location    String
+  image       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  accommodation Accommodation[]
+}
+
+
+model Room {
+  id              String          @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  description     String
+  pricePerNight   Float
+  capacity        Int
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  accommodationId String @db.ObjectId
+
+  // Define foreign key
+  accommodation   Accommodation  @relation(fields: [accommodationId], references: [id])
+}
+
+
+model Accommodation {
+  id              String     @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  description     String
+  address         String
+  pricePerNight   Float
+  capacity        Int
+  amenities       String[]
+  propertyType    String  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  imageUrls String[]
+  rooms Room[]
+  destinationId   String @db.ObjectId
+  offerId         String?  @unique @db.ObjectId
+  
+  // Define foreign key
+  destination     Destination @relation(fields: [destinationId], references: [id])
+  offer           Offer?         @relation(fields: [offerId], references: [id])
+}
+
+
