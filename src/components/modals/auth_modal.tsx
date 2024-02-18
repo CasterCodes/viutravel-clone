@@ -8,6 +8,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
+import SecondLogo from "../../../public/secondary-logo.svg";
 
 interface AuthModalProps {
   loginForm: JSX.Element;
@@ -16,6 +17,7 @@ interface AuthModalProps {
 }
 
 import { X } from "lucide-react";
+import Image from "next/image";
 
 const AuthModal: FC<AuthModalProps> = ({
   loginForm,
@@ -60,6 +62,12 @@ const AuthModal: FC<AuthModalProps> = ({
               signupForm
             ) : (
               <div className="bg-red-600 rounded-tr-sm rounded-br-sm p-12 h-full w-full flex flex-col justify-center items-center">
+                <Image
+                  src={SecondLogo}
+                  height={220}
+                  width={220}
+                  alt="Auth ViuRoom Logo"
+                />
                 <h2 className="text-3xl text-center font-semibold text-white">
                   Start your jounery with us
                 </h2>

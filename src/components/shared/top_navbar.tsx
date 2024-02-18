@@ -18,6 +18,8 @@ import { Button } from "../ui/button";
 import LoginForm from "../forms/login_form";
 import AuthModal from "../modals/auth_modal";
 import SignupForm from "../forms/signup_form";
+import FirstLogo from "../../../public/first-logo.svg";
+import Image from "next/image";
 
 const TopNavBar = () => {
   return (
@@ -27,7 +29,12 @@ const TopNavBar = () => {
         <ul className="flex py-3 flex-row items-center space-x-2">
           <li>
             <Link href={"/"} className="text-4xl font-bold text-red-700">
-              ViuRoam
+              <Image
+                src={FirstLogo}
+                alt="ViuRoam First Logo"
+                height={120}
+                width={120}
+              />
             </Link>
           </li>
           <li className="text-white border-l-2 px-2 py-2  border-stone-700 space-x-1 flex flex-row items-center hover:text-red-700">

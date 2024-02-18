@@ -14,6 +14,8 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import ForgotPasswordForm from "./forgot_password_form";
 import z from "zod";
+import ThirdLogo from "../../../public/third-logo.svg";
+import Image from "next/image";
 
 const LoginFormSchema = z.object({
   email: z.string().email(),
@@ -26,6 +28,14 @@ const LoginForm = () => {
   const form = useForm();
   return (
     <Form {...form}>
+      <div className="px-12 pt-12 flex justify-center items-center">
+        <Image
+          src={ThirdLogo}
+          alt="ViuRoam third logo"
+          height={180}
+          width={180}
+        />
+      </div>
       <form onSubmit={() => null} className="space-y-4 p-12">
         <FormField
           control={form.control}

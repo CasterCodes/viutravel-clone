@@ -1,22 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormMessage,
 } from "../ui/form";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Signup } from "@/types/auth.types";
+import { SignUpSchema } from "@/schemas/auth.schemas";
+import { createUserAccount } from "@/lib/actions/auth.action";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const SignupForm = () => {
-  const form = useForm();
+  const router = useRouter();
+  const [signupError, setSignupError] = useState<string | null>(null);
+  const form = useForm<Signup>({
+    mode: "onChange",
+    resolver: zodResolver(SignUpSchema),
+    defaultValues: {
+      username: "",
+      email: "",
+      phone: "",
+      password: "",
+    },
+  });
+  const {
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = form;
+
+  const userSignup: SubmitHandler<Signup> = async (formData: Signup) => {
+    setSignupError(null);
+    const result = await createUserAccount(formData);
+
+    if (result?.error) {
+      setSignupError(result.error);
+    }
+
+    if (result?.success) {
+      toast.success(result?.success);
+      router.push('/')
+    }
+  };
   return (
     <Form {...form}>
-      <form onSubmit={() => null} className="space-y-4 p-12">
+      <form onSubmit={handleSubmit(userSignup)} className="space-y-4 p-12">
         <div className="flex flex-col justify-center items-center">
           <h2 className="text-neutral-900 text-3xl font-medium text-center">
             Create Account
@@ -24,6 +57,16 @@ const SignupForm = () => {
           <p className="text-base font-light text-neutral-900">
             or use your email for registration
           </p>
+
+          {signupError ? (
+            <div className="text-red-300 my-3 bg-red-100 rounded-sm p-4">
+              <p className="text-red-500 text-base font-normal">
+                {signupError}
+              </p>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
         <FormField
           control={form.control}
@@ -33,15 +76,13 @@ const SignupForm = () => {
               <FormItem>
                 <FormControl>
                   <Input
+                    disabled={isSubmitting}
                     className="p-6 rounded-sm bg-zinc-200 text-base"
                     placeholder="Name"
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
-                <FormMessage />
+                {errors.username ? <FormMessage /> : <></>}
               </FormItem>
             </>
           )}
@@ -54,15 +95,13 @@ const SignupForm = () => {
               <FormItem>
                 <FormControl>
                   <Input
+                    disabled={isSubmitting}
                     className="p-6 rounded-sm bg-zinc-200 text-base"
                     placeholder="Email"
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
-                <FormMessage />
+                {errors.email ? <FormMessage /> : <></>}
               </FormItem>
             </>
           )}
@@ -75,15 +114,14 @@ const SignupForm = () => {
               <FormItem>
                 <FormControl>
                   <Input
+                    type="text"
+                    disabled={isSubmitting}
                     className="p-6 rounded-sm bg-zinc-200 text-base"
-                    placeholder="Email"
+                    placeholder="Phone"
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
-                <FormMessage />
+                {errors.phone ? <FormMessage /> : <></>}
               </FormItem>
             </>
           )}
@@ -97,25 +135,24 @@ const SignupForm = () => {
                 <FormControl>
                   <Input
                     type="password"
+                    disabled={isSubmitting}
                     className="p-6 rounded-sm bg-zinc-200 text-base"
                     placeholder="Password"
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
-                <FormMessage />
+                {errors.password ? <FormMessage /> : <></>}
               </FormItem>
             </>
           )}
         />
         <div className="flex flex-col justify-center space-y-4 items-center">
           <Button
+            disabled={isSubmitting}
             className="rounded-full uppercase font-semibold  text-base border-none bg-red-600 hover:bg-red-600"
             type="submit"
           >
-            Register
+            {isSubmitting ? "Creatting Account" : "Register"}
           </Button>
         </div>
       </form>
