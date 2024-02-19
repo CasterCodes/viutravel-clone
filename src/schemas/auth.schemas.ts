@@ -18,3 +18,10 @@ export const SignUpSchema = z.object({
       }
     ),
 });
+
+
+
+export const LoginFormSchema = z.object({
+  username: z.string().email("Enter a valid email"),
+  password: z.string().min(1, "Enter is required "),
+});

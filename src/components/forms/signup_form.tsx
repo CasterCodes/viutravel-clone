@@ -15,6 +15,7 @@ import { SignUpSchema } from "@/schemas/auth.schemas";
 import { createUserAccount } from "@/lib/actions/auth.action";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import FormSubmissionError from "../shared/form.submission.error";
 
 const SignupForm = () => {
   const router = useRouter();
@@ -44,7 +45,7 @@ const SignupForm = () => {
 
     if (result?.success) {
       toast.success(result?.success);
-      router.push('/')
+      router.push("/");
     }
   };
   return (
@@ -58,15 +59,7 @@ const SignupForm = () => {
             or use your email for registration
           </p>
 
-          {signupError ? (
-            <div className="text-red-300 my-3 bg-red-100 rounded-sm p-4">
-              <p className="text-red-500 text-base font-normal">
-                {signupError}
-              </p>
-            </div>
-          ) : (
-            <></>
-          )}
+          <FormSubmissionError errorMessage={signupError} />
         </div>
         <FormField
           control={form.control}

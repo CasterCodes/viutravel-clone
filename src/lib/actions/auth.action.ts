@@ -5,6 +5,7 @@ import { Signup } from "@/types/auth.types";
 import prisma from "../prisma";
 
 import bcrypt from "bcryptjs";
+
 export const createUserAccount = async (data: Signup) => {
   const validatedData = SignUpSchema.safeParse(data);
 
@@ -58,3 +59,5 @@ export const createUserAccount = async (data: Signup) => {
     };
   }
 };
+
+

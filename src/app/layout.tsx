@@ -1,11 +1,13 @@
+import TopNavBar from "@/components/shared/top_navbar";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
-import TopNavBar from "@/components/shared/top_navbar";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
+import AppStateProvider from "@/lib/providers/app-state.provider";
+import AppSessionProvider from "@/lib/providers/session.provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,9 +22,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={montserrat.className}>
-        <TopNavBar />
-        <Toaster />
-        <main>{children}</main>
+        <AppStateProvider>
+          <AppSessionProvider>
+            <TopNavBar />
+            <Toaster />
+            <main>{children}</main>
+          </AppSessionProvider>
+        </AppStateProvider>
       </body>
     </html>
   );

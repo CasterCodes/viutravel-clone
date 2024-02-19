@@ -20,8 +20,14 @@ import AuthModal from "../modals/auth_modal";
 import SignupForm from "../forms/signup_form";
 import FirstLogo from "../../../public/first-logo.svg";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
+import AccountDropdownMenu from "../account_dropdown_menu";
 
 const TopNavBar = () => {
+  const { data } = useSession();
+
+  console.log({ data });
+
   return (
     <nav>
       <TopBar />
@@ -51,18 +57,22 @@ const TopNavBar = () => {
           </li>
         </ul>
         <aside>
-          <AuthModal
-            triggerButton={
-              <Button className="bg-stone-800 rounded-none hover:text-red-700 hover:bg-stone-800">
-                <CircleUserRound />
-                <span className="text-sm font-medium inline-block ml-2">
-                  Log in / Sign up
-                </span>
-              </Button>
-            }
-            loginForm={<LoginForm />}
-            signupForm={<SignupForm />}
-          />
+          {data?.user?.email ? (
+            <AccountDropdownMenu />
+          ) : (
+            <AuthModal
+              triggerButton={
+                <Button className="bg-stone-800 rounded-none hover:text-red-700 hover:bg-stone-800">
+                  <CircleUserRound />
+                  <span className="text-sm font-medium inline-block ml-2">
+                    Log in / Sign up
+                  </span>
+                </Button>
+              }
+              loginForm={<LoginForm />}
+              signupForm={<SignupForm />}
+            />
+          )}
         </aside>
       </div>
     </nav>
