@@ -1,6 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import { verifyLoginCredentials } from "@/lib/actions/auth.action";
 
 export const options: NextAuthOptions = {
   session: {
@@ -14,6 +15,8 @@ export const options: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
+        // by the time we reach the authorize function we would have verified user credentials
+
         const user = await prisma?.user.findUnique({
           where: {
             email: credentials?.username,
@@ -21,15 +24,6 @@ export const options: NextAuthOptions = {
         });
 
         if (!user) return null;
-
-        const correctPassword = await bcrypt.compare(
-          credentials?.password!,
-          user.password
-        );
-
-        if (!correctPassword) return null;
-
-        console.log({ user });
 
         return {
           email: user.email,

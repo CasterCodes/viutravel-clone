@@ -18,12 +18,15 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import ForgotPasswordForm from "./forgot_password_form";
+import { verifyLoginCredentials } from "@/lib/actions/auth.action";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
   const [forgotPasswordActive, setForgotPasswordActive] =
     useState<boolean>(false);
 
   const [loginError, setLoginError] = useState<string | null>(null);
+  const router = useRouter();
 
   const form = useForm<Login>({
     mode: "onChange",
@@ -42,12 +45,21 @@ const LoginForm = () => {
   const handleUserLogin = async (data: Login) => {
     setLoginError(null);
     try {
+      const result = await verifyLoginCredentials(data);
+
+      if (!result?.success) {
+        setLoginError(result.message);
+        return;
+      }
+
       await signIn("credentials", {
         username: data.username,
         password: data.password,
-        redirect: true,
+        redirect: false,
         callbackUrl: "/",
       });
+
+      router.push("/");
     } catch (error: any) {
       setLoginError(
         error?.message ? error?.message : "Error logging user in. Try again"
@@ -56,7 +68,7 @@ const LoginForm = () => {
   };
   return (
     <Form {...form}>
-      <div className="px-12 pt-12 flex justify-center items-center">
+      <div className="px-12 pt-12 flex flex-col justify-center w-full items-center">
         <Image
           src={ThirdLogo}
           alt="ViuRoam third logo"
@@ -65,7 +77,10 @@ const LoginForm = () => {
         />
         <FormSubmissionError errorMessage={loginError} />
       </div>
-      <form onSubmit={handleSubmit(handleUserLogin)} className="space-y-4 p-12">
+      <form
+        onSubmit={handleSubmit(handleUserLogin)}
+        className="space-y-3 mt-[-24] p-12"
+      >
         <FormField
           control={form.control}
           name="username"

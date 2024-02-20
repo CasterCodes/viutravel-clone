@@ -9,6 +9,7 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import { Button } from "./ui/button";
 import { ChevronDown } from "lucide-react";
+import Link from "next/link";
 
 const AccountDropdownMenu = () => {
   const { data } = useSession();
@@ -23,8 +24,12 @@ const AccountDropdownMenu = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>Manage bookings</DropdownMenuLabel>
-        <DropdownMenuItem>Settings</DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href="/profile/bookings">Manage bookings</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href="/profile/settings">Settings</Link>
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => signOut()}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

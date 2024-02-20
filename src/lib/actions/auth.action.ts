@@ -1,7 +1,7 @@
 "use server";
 
 import { SignUpSchema } from "@/schemas/auth.schemas";
-import { Signup } from "@/types/auth.types";
+import { Login, Signup, VerifyCredentials } from "@/types/auth.types";
 import prisma from "../prisma";
 
 import bcrypt from "bcryptjs";
@@ -60,4 +60,34 @@ export const createUserAccount = async (data: Signup) => {
   }
 };
 
+export const verifyLoginCredentials = async (
+  data: Login
+): Promise<VerifyCredentials> => {
+  const { username, password } = data;
+
+  const user = await prisma?.user.findUnique({
+    where: {
+      email: username,
+    },
+  });
+
+  const errorResponse: VerifyCredentials = {
+    error: true,
+    message: "Invalid credentials",
+  };
+
+  if (!user) return errorResponse;
+
+  const correctPassword = await bcrypt.compare(password, user.password);
+
+  if (!correctPassword) return errorResponse;
+
+  return {
+    success: true,
+    message: "Correct credentials",
+    email: user.email,
+    name: user.username,
+    id: user.id,
+  };
+};
 
