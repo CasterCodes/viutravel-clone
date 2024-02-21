@@ -55,7 +55,7 @@ const LoginForm = () => {
       await signIn("credentials", {
         username: data.username,
         password: data.password,
-        redirect: false,
+        redirect: true,
         callbackUrl: "/",
       });
 

@@ -1,12 +1,8 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
-import { verifyLoginCredentials } from "@/lib/actions/auth.action";
+
 
 export const options: NextAuthOptions = {
-  session: {
-    strategy: "jwt",
-  },
   providers: [
     CredentialsProvider({
       name: "Credentials",

@@ -26,7 +26,7 @@ export default function RootLayout({
           <AppSessionProvider>
             <TopNavBar />
             <Toaster />
-            <main className="relative mt-72  md:top-28">{children}</main>
+            <main className="relative  md:top-28">{children}</main>
           </AppSessionProvider>
         </AppStateProvider>
       </body>
