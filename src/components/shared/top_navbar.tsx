@@ -26,13 +26,11 @@ import AccountDropdownMenu from "../account_dropdown_menu";
 const TopNavBar = () => {
   const { data } = useSession();
 
-  console.log({ data });
-
   return (
-    <nav>
+    <nav className="fixed w-full z-50 top-0">
       <TopBar />
-      <div className="bg-neutral-900 flex flex-row items-center justify-between px-24">
-        <ul className="flex py-3 flex-row items-center space-x-2">
+      <div className="bg-neutral-900 flex flex-col md:flex-row md:items-center justify-between px-4 md:px-24 ">
+        <ul className="flex py-3 flex-col md:flex-row md:items-center md:space-x-2">
           <li>
             <Link href={"/"} className="text-4xl font-bold text-red-700">
               <Image
@@ -43,13 +41,13 @@ const TopNavBar = () => {
               />
             </Link>
           </li>
-          <li className="text-white border-l-2 px-2 py-2  border-stone-700 space-x-1 flex flex-row items-center hover:text-red-700">
+          <li className="text-white md:border-l-2 px-2 py-2  md:border-stone-700 space-x-1 flex flex-row items-center hover:text-red-700">
             <Bed size={14} />
             <Link href={"/"} className="text-sm">
               Book a stay
             </Link>
           </li>
-          <li className="text-white border-l-2 px-2 py-2  border-stone-700 space-x-1 flex flex-row items-center hover:text-red-700">
+          <li className="text-white md:border-l-2 px-2 py-2  md:border-stone-700 space-x-1 flex flex-row items-center hover:text-red-700">
             <Palmtree size={14} />
             <Link href="" className="text-sm">
               Holidays
@@ -81,7 +79,7 @@ const TopNavBar = () => {
 
 const TopBar = () => {
   return (
-    <div className="bg-stone-800 py-2 px-24 flex flex-row justify-between items-center">
+    <div className="bg-stone-800 py-2 flex-col px-4 md:px-24 flex md:flex-row justify-between md:items-center">
       <ul className="flex flex-row items-center space-x-4">
         <li className="flex flex-row space-x-2 text-white cursor-pointer text-xs items-center hover:text-red-700">
           <Phone className="text-xs" size={14} />
@@ -92,7 +90,7 @@ const TopBar = () => {
           <span>connect@viujourney.com</span>
         </li>
       </ul>
-      <ul className="flex flex-row items-center space-x-4">
+      <ul className="flex mt-3 md:mt-0 flex-row items-center space-x-4">
         <li>
           <Link className="text-white hover:text-red-700" href={"/"}>
             <Facebook size={14} />
