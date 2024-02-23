@@ -154,7 +154,7 @@ const UserBookingSection: FC<UserProfileSettingsSectionProps> = ({
                   <Input
                     disabled={isSubmitting}
                     className="p-4 rounded-sm bg-zinc-100 text-base"
-                    placeholder="Name"
+                    placeholder="Phone number"
                     {...field}
                   />
                 </FormControl>
@@ -196,7 +196,7 @@ const UserBookingSection: FC<UserProfileSettingsSectionProps> = ({
                 </FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Tell us a little bit about yourself"
+                    placeholder="Address"
                     className="resize-none p-4 rounded-sm bg-zinc-100 text-base"
                     {...field}
                   />
@@ -219,7 +219,7 @@ const UserBookingSection: FC<UserProfileSettingsSectionProps> = ({
                   <Input
                     disabled={isSubmitting}
                     className="p-4 rounded-sm bg-zinc-100 text-base"
-                    placeholder="Name"
+                    placeholder="Zip Code"
                     {...field}
                   />
                 </FormControl>
@@ -263,7 +263,7 @@ const UserBookingSection: FC<UserProfileSettingsSectionProps> = ({
                   <Input
                     disabled={isSubmitting}
                     className="p-4 rounded-sm bg-zinc-100 text-base"
-                    placeholder="Name"
+                    placeholder="State"
                     {...field}
                   />
                 </FormControl>

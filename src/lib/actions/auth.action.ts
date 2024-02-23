@@ -49,6 +49,12 @@ export const createUserAccount = async (data: Signup) => {
       };
     }
 
+    await prisma.profile.create({
+      data: {
+        userId: createdUser.id,
+      },
+    });
+
     return {
       success: "Account was created successfully",
     };

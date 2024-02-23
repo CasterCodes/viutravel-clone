@@ -49,7 +49,7 @@ const ViuRoamAccountSection: FC<UserProfileSettingsSectionProps> = ({
                   <Input
                     disabled={isSubmitting}
                     className="p-4 rounded-sm bg-zinc-100 text-base"
-                    placeholder="Name"
+                    placeholder="Display name "
                     {...field}
                   />
                 </FormControl>

@@ -1,6 +1,6 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-
+import prisma from "@/lib/prisma";
 
 export const options: NextAuthOptions = {
   providers: [
@@ -29,6 +29,25 @@ export const options: NextAuthOptions = {
       },
     }),
   ],
+  callbacks: {
+    async session({ session }) {
+      const user = await prisma.user.findFirst({
+        where: {
+          email: session.user?.email!,
+        },
+      });
+
+      if (!user) return session;
+
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id,
+        },
+      };
+    },
+  },
   pages: {
     signIn: "/",
   },

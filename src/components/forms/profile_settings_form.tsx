@@ -1,51 +1,71 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Form } from "@/components/ui/form";
 import { UserProfileSchema } from "@/schemas/profile.schema";
 import { UserProfile } from "@/types/profile.types";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { useRouter } from "next/navigation";
+import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import UserBookingSection from "./sections/user_bookings_section";
-import ViuRoamAccountSection from "./sections/viuroam_account_section";
 import UserTravelRatingSection from "./sections/user_travel_rating_section";
+import ViuRoamAccountSection from "./sections/viuroam_account_section";
+import { updateUserProfile } from "@/lib/actions/profile.action";
+import toast from "react-hot-toast";
 
-const ProfileSettingsForm = () => {
+interface ProfileSettingsFormProps {
+  profile: {
+    email?: string | null;
+    dob?: Date | null;
+    country?: string | null;
+    displayName?: string | null;
+    title?: string | null;
+    firstName?: string | null;
+    city?: string | null;
+    lastName?: string | null;
+    phoneNumber?: string | null;
+    address?: string | null;
+    zipCode?: string | null;
+    state?: string | null;
+    travelRating?: string | null;
+    user: {
+      id: string | null;
+      username: string | null;
+      email: string | null;
+      password: string | null;
+      phone: string | null;
+      createdAt: Date;
+      updatedAt: Date;
+    };
+  };
+}
+
+const ProfileSettingsForm: FC<ProfileSettingsFormProps> = ({ profile }) => {
   const router = useRouter();
   const form = useForm({
     mode: "onChange",
     resolver: zodResolver(UserProfileSchema),
     defaultValues: {
-      email: "",
+      email: profile.user.email ?? "",
       dob: new Date(),
-      country: "",
-      displayName: "",
-      title: "",
-      firstName: "",
-      lastName: "",
-      phoneNumber: "",
-      address: "",
-      zipCode: "",
-      city: "",
-      state: "",
-      travelRating: "",
+      country: profile.country ?? "",
+      displayName: profile.displayName ?? "",
+      title: profile.title ?? "",
+      firstName: profile.firstName
+        ? profile.firstName
+        : profile.user.username?.split(" ")[0] ?? "",
+      lastName: profile.lastName
+        ? profile.lastName
+        : profile.user.username?.split(" ")[1] ?? "",
+      phoneNumber: profile.phoneNumber ?? "",
+      address: profile.phoneNumber ?? "",
+      zipCode: profile.zipCode ?? "",
+      city: profile.city ?? "",
+      state: profile.state ?? "",
+      travelRating: profile.travelRating ?? "",
     },
   });
+
   const {
     handleSubmit,
     formState: { isSubmitting, errors },
@@ -54,8 +74,14 @@ const ProfileSettingsForm = () => {
   const handleUpdateProfile: SubmitHandler<UserProfile> = async (
     formData: UserProfile
   ) => {
-    alert("Hello");
-    console.log({ formData });
+    const updateResult = await updateUserProfile(formData);
+
+    if (updateResult.error) {
+      toast.error(updateResult.message);
+      return;
+    }
+
+    toast.success("Profile update successfully");
   };
 
   return (
