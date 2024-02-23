@@ -21,6 +21,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
+    "cloudinary-react": "^1.8.1",
     "clsx": "^2.1.0",
     "cmdk": "^0.2.1",
     "country-list-js": "^3.1.8",

@@ -2,7 +2,6 @@ import TopNavBar from "@/components/shared/top_navbar";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
-
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 import { Toaster } from "react-hot-toast";
@@ -24,9 +23,8 @@ export default function RootLayout({
       <body className={montserrat.className}>
         <AppStateProvider>
           <AppSessionProvider>
-            <TopNavBar />
             <Toaster />
-            <main className="relative  md:top-28">{children}</main>
+            <main>{children}</main>
           </AppSessionProvider>
         </AppStateProvider>
       </body>
