@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 const dashboardLinks = [
   {
     name: "Destination",
-    url: "/admin/dashboard/destination",
+    url: "/admin/dashboard/destinations",
   },
   {
     name: "Accommodation",

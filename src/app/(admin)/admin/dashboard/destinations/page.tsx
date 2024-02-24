@@ -6,7 +6,7 @@ const DestinationPage = () => {
   return (
     <div>
       <Button>
-        <Link href="/admin/dashboard/destination/create">
+        <Link href="/admin/dashboard/destinations/create">
           Create new Destination
         </Link>
       </Button>

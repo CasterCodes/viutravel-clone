@@ -1,14 +1,15 @@
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
-import React, { FC } from "react";
+import React, { Dispatch, FC, SetStateAction } from "react";
 import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
 
 interface FileUploadProps<T, K> {
   error: T;
-  setError(value: T): void;
+  setError: Dispatch<SetStateAction<T>>;
+  setUploadUrl: Dispatch<SetStateAction<T>>;
   uploadUrl: T;
   title: K;
-  setUploadUrl(value: T): void;
 }
 
 const FileUpload: FC<FileUploadProps<string | null, string>> = ({
@@ -37,7 +38,12 @@ const FileUpload: FC<FileUploadProps<string | null, string>> = ({
             open();
           };
           return (
-            <div className="flex flex-col space-y-4 border-dotted border-2 p-3">
+            <div
+              className={cn(
+                "flex flex-col space-y-4",
+                uploadUrl ? "border-dotted border-2 p-3" : ""
+              )}
+            >
               {uploadUrl ? (
                 <Image
                   alt="Destination create image"
@@ -50,7 +56,7 @@ const FileUpload: FC<FileUploadProps<string | null, string>> = ({
                 <></>
               )}
               <Button
-                className="p-12 border-dotted border-2 text-neutral-700 rounded-sm bg-tranparent text-lg font-semibold uppercase hover:bg-transparent"
+                className="p-8 border-dotted border-2 text-neutral-700 rounded-sm bg-tranparent text-lg font-semibold uppercase hover:bg-transparent"
                 onClick={handleClick}
               >
                 {uploadUrl ? "Click to change" : " Click to upload"}

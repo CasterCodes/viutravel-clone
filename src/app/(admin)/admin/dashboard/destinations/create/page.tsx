@@ -11,21 +11,26 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DestinationSchema } from "@/schemas/destination.schema";
 import { Textarea } from "@/components/ui/textarea";
+import { Destination } from "@/types/destination.types";
+import { createDestination } from "@/lib/actions/destination.action";
+import FileUpload from "@/components/shared/fileUpload";
 
 const DestinationCreatePage = () => {
-  const form = useForm({
+  const [uploadUrl, setUploadUrl] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const form = useForm<Destination>({
     mode: "onChange",
     resolver: zodResolver(DestinationSchema),
     defaultValues: {
       name: "",
       location: "",
       description: "",
-      image: "",
     },
   });
 
@@ -34,7 +39,20 @@ const DestinationCreatePage = () => {
     formState: { errors, isSubmitting },
   } = form;
 
-  const handleDestinationCreation = async (data: any) => {};
+  const handleDestinationCreation: SubmitHandler<Destination> = async (
+    data: Destination
+  ) => {
+    let destination: Destination & { image: string } = { ...data, image: "" };
+
+    if (!uploadUrl) {
+      setError("Upload destination image");
+      return;
+    }
+
+    destination.image = uploadUrl;
+
+    await createDestination(destination);
+  };
   return (
     <div className="md:w-3/4">
       <h2 className="text-3xl font-semibold leading-snug capitalize">
@@ -42,7 +60,7 @@ const DestinationCreatePage = () => {
       </h2>
       <Form {...form}>
         <div className="pt-12 flex flex-col justify-center w-full items-center">
-          <FormSubmissionError errorMessage={null} />
+          <FormSubmissionError errorMessage={error} />
         </div>
         <form
           onSubmit={handleSubmit(handleDestinationCreation)}
@@ -114,37 +132,20 @@ const DestinationCreatePage = () => {
               </>
             )}
           />
-          <FormField
-            control={form.control}
-            name="image"
-            render={({ field }) => (
-              <>
-                <FormItem>
-                  <FormLabel className="font-bold uppercase leading-snug text-neutral-800/90">
-                    Image
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={isSubmitting}
-                      type="file"
-                      className="p-6 rounded-sm  text-base"
-                      placeholder=""
-                      {...field}
-                    />
-                  </FormControl>
-
-                  {errors.location ? <FormMessage /> : <></>}
-                </FormItem>
-              </>
-            )}
+          <FileUpload
+            uploadUrl={uploadUrl}
+            error={error}
+            title="Destination Image"
+            setError={setError}
+            setUploadUrl={setUploadUrl}
           />
 
           <Button
             disabled={isSubmitting}
-            className="rounded-sm uppercase mt-4 font-semibold  text-base border-none bg-neutral-900 hover:bg-neutral-800"
+            className="rounded-sm mt-12 px-12 py-6 md:w-1/2 uppercase font-semibold  text-base border-none bg-neutral-900 hover:bg-neutral-800"
             type="submit"
           >
-            {isSubmitting ? "Authenticating" : " Create"}
+            {isSubmitting ? "Creating" : " Create"}
           </Button>
         </form>
       </Form>
