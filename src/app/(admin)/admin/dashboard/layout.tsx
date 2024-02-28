@@ -7,12 +7,12 @@ import { Button } from "@/components/ui/button";
 
 const dashboardLinks = [
   {
-    name: "Destination",
+    name: "Destinations",
     url: "/admin/dashboard/destinations",
   },
   {
-    name: "Accommodation",
-    url: "/admin/dashboard/accomodation",
+    name: "Accommodations",
+    url: "/admin/dashboard/accommodations",
   },
 ];
 
@@ -52,7 +52,7 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
               </li>
             ))}
           </ul>
-          <Button className="brounded-none w-full hover:text-red-700 hover:bg-stone-800">
+          <Button className="rounded-none w-full bg-neutral-800  hover:bg-stone-800">
             <span className="text-sm flex flex-row justify-center items-center space-z-2 font-medium">
               Logout
             </span>

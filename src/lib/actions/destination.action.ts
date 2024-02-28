@@ -34,6 +34,6 @@ export const createDestination = async (
     };
   }
 
-  revalidatePath("/admin/dashboard/destinations?created=true");
-  redirect("/admin/dashboard/destinations");
+  revalidatePath("/admin/dashboard/destinations");
+  redirect("/admin/dashboard/destinations?create=true");
 };

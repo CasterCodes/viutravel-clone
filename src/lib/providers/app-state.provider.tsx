@@ -1,12 +1,23 @@
 "use client";
 
+import { TDestination, useDestinations } from "@/hooks/destinations.hooks";
 import { ReactNode, createContext, useContext } from "react";
 
-const AppStateContext = createContext<any>(null);
+interface IAppState {
+  destinations: {
+    data: TDestination[] | null;
+    loading: boolean;
+  };
+}
+
+const AppStateContext = createContext<IAppState | null>(null);
 
 const AppStateProvider = ({ children }: { children: ReactNode }) => {
+  const destinations = useDestinations();
   return (
-    <AppStateContext.Provider value={null}>{children}</AppStateContext.Provider>
+    <AppStateContext.Provider value={{ destinations }}>
+      {children}
+    </AppStateContext.Provider>
   );
 };
 

@@ -91,8 +91,6 @@ model Accommodation {
   name            String
   description     String
   address         String
-  pricePerNight   Float
-  capacity        Int
   amenities       String[]
   propertyType    String  
   createdAt       DateTime  @default(now())
