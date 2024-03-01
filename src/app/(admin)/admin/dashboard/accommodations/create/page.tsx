@@ -116,7 +116,7 @@ const CreateAccommondationPage = () => {
       imageUrls: [],
     };
 
-    if (uploadUrls.length < 0) {
+    if (uploadUrls.length === 0) {
       setError("Please upload accommodation images");
       return;
     }
@@ -125,8 +125,8 @@ const CreateAccommondationPage = () => {
 
     const result = await createAccommodation(accommodation);
 
-    if (result.error) {
-      toast.success(result.message);
+    if (result && result.error) {
+      toast.error(result.message);
     }
   };
 

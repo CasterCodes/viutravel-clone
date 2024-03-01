@@ -53,8 +53,10 @@ model Offer {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
-  // Define a field for the accommodation reference
-  accommodation Accommodation?
+  offerId         String?  @unique @db.ObjectId
+  
+  // Define foreign key
+  offer           Accommodation?         @relation(fields: [offerId], references: [id])
 }
 
 
@@ -80,7 +82,6 @@ model Room {
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
   accommodationId String @db.ObjectId
-
   // Define foreign key
   accommodation   Accommodation  @relation(fields: [accommodationId], references: [id])
 }
@@ -98,11 +99,9 @@ model Accommodation {
   imageUrls String[]
   rooms Room[]
   destinationId   String @db.ObjectId
-  offerId         String?  @unique @db.ObjectId
-  
-  // Define foreign key
+  offer Offer?
   destination     Destination @relation(fields: [destinationId], references: [id])
-  offer           Offer?         @relation(fields: [offerId], references: [id])
+  
 }
 
 

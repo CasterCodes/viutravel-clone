@@ -18,6 +18,7 @@ export function useDestinations() {
   const [destinations, setDestinations] = useState<TDestination[]>([]);
   const [destinationsError, setDestinationsError] = useState(null);
   const [loading, setLoading] = useState<boolean>(false);
+
   useEffect(() => {
     async function getAllDestinations() {
       setLoading(true);
