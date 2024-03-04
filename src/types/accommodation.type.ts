@@ -1,8 +1,10 @@
-import { AccommodationSchema } from "@/schemas/accommodation.schema";
+import {
+  AccommodationRoomSchema,
+  AccommodationSchema,
+} from "@/schemas/accommodation.schema";
 import z from "zod";
 
 export type Accommodation = z.infer<typeof AccommodationSchema>;
-
 
 export type AccommodationWithDestination = {
   id: string;
@@ -18,3 +20,5 @@ export type AccommodationWithDestination = {
     location: string;
   };
 };
+
+export type AccommodationRoom = z.infer<typeof AccommodationRoomSchema>;

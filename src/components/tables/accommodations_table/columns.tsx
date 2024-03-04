@@ -104,9 +104,7 @@ export const columns: ColumnDef<AccommodationWithDestination>[] = [
             <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link
-                href={`/admin/dashboard/accommondations/${accommodationId}`}
-              >
+              <Link href={`/admin/dashboard/accommodations/${accommodationId}`}>
                 View Accommodation
               </Link>
             </DropdownMenuItem>

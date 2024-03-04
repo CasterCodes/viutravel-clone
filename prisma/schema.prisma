@@ -52,7 +52,6 @@ model Offer {
   endDate     DateTime
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-
   offerId         String?  @unique @db.ObjectId
   
   // Define foreign key
@@ -75,14 +74,13 @@ model Destination {
 
 model Room {
   id              String          @id @default(auto()) @map("_id") @db.ObjectId
-  name            String
-  description     String
   pricePerNight   Float
+  roomType  String
+  numberOfGuests Int
   capacity        Int
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
   accommodationId String @db.ObjectId
-  // Define foreign key
   accommodation   Accommodation  @relation(fields: [accommodationId], references: [id])
 }
 

@@ -1,8 +1,11 @@
 "use server";
 import prisma from "../prisma";
 
-import { AccommodationSchema } from "@/schemas/accommodation.schema";
-import { Accommodation } from "@/types/accommodation.type";
+import {
+  AccommodationRoomSchema,
+  AccommodationSchema,
+} from "@/schemas/accommodation.schema";
+import { Accommodation, AccommodationRoom } from "@/types/accommodation.type";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -17,8 +20,6 @@ export const createAccommodation = async (
     propertyType: accommodation.propertyType,
     amenities: accommodation.amenities,
   });
-  // @ts-expect-error
-  console.log({ error: validatedFields.error });
 
   if (!validatedFields.success || accommodation.imageUrls.length < 0) {
     return {
@@ -46,4 +47,43 @@ export const createAccommodation = async (
 
   revalidatePath("/admin/dashboard/accommodations");
   redirect("/admin/dashboard/accommodations?create=true");
+};
+
+export const createAccommodationRoom = async (
+  data: AccommodationRoom & { accommodationId: string }
+) => {
+  const validatedFields = AccommodationRoomSchema.safeParse({
+    pricePerNight: data.numberOfGuests.toString(),
+    roomType: data.roomType,
+    numberOfGuests: data.numberOfGuests.toString(),
+    capacity: data.capacity.toString(),
+  });
+
+  if (!validatedFields.success || !data.accommodationId) {
+    return {
+      error: true,
+      message: "Missing Fields. Failed to create room",
+    };
+  }
+
+  const newRoom = {
+    pricePerNight: +validatedFields.data.pricePerNight,
+    roomType: validatedFields.data.roomType,
+    numberOfGuests: +validatedFields.data.numberOfGuests,
+    capacity: +validatedFields.data.capacity,
+    accommodationId: data.accommodationId,
+  };
+  try {
+    await prisma.room.create({
+      data: newRoom,
+    });
+  } catch (error) {
+    return {
+      error: true,
+      message: "Error creating room",
+    };
+  }
+
+  revalidatePath(`/admin/dashboard/accommodations/${data.accommodationId}`);
+  redirect(`/admin/dashboard/accommodations/${data.accommodationId}`);
 };

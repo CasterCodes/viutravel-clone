@@ -1,7 +1,5 @@
 "use client";
-
 import { useEffect, useState } from "react";
-
 import axios from "axios";
 
 export interface TDestination {
@@ -26,6 +24,7 @@ export function useDestinations() {
         const results: TDestination[] = await axios
           .get("/api/destinations")
           .then((results) => results.data);
+
         if (results) {
           setDestinations(results);
           setLoading(false);

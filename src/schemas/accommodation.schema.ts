@@ -1,4 +1,4 @@
-import z from "zod";
+import z, { nullable } from "zod";
 
 const optionSchema = z.object({
   label: z.string(),
@@ -15,4 +15,18 @@ export const AccommodationSchema = z.object({
   amenities: z
     .array(optionSchema)
     .nonempty("Please provide a list of amenties"),
+});
+
+export const AccommodationRoomSchema = z.object({
+  pricePerNight: z
+    .string()
+    .min(1, "Room price per night required")
+    .transform((v) => Number(v)),
+  roomType: z.string().min(1, "Room type is required"),
+
+  numberOfGuests: z.string().transform((v) => Number(v)),
+  capacity: z
+    .string()
+    .min(1, "Number of such rooms availabe is required")
+    .transform((v) => Number(v)),
 });
