@@ -75,7 +75,7 @@ model Destination {
 model Room {
   id              String          @id @default(auto()) @map("_id") @db.ObjectId
   pricePerNight   Float
-  roomType  String
+  roomType  String @unique
   numberOfGuests Int
   capacity        Int
   createdAt       DateTime       @default(now())

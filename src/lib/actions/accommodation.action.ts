@@ -87,3 +87,46 @@ export const createAccommodationRoom = async (
   revalidatePath(`/admin/dashboard/accommodations/${data.accommodationId}`);
   redirect(`/admin/dashboard/accommodations/${data.accommodationId}`);
 };
+
+export const updateAccommodationRoom = async (
+  data: AccommodationRoom & { accommodationId: string },
+  roomId: string
+) => {
+  const validatedFields = AccommodationRoomSchema.safeParse({
+    pricePerNight: data.numberOfGuests.toString(),
+    roomType: data.roomType,
+    numberOfGuests: data.numberOfGuests.toString(),
+    capacity: data.capacity.toString(),
+  });
+
+  if (!validatedFields.success || !data.accommodationId || !roomId) {
+    return {
+      error: true,
+      message: "Missing Fields. Failed to update room",
+    };
+  }
+
+  const newRoom = {
+    pricePerNight: +validatedFields.data.pricePerNight,
+    roomType: validatedFields.data.roomType,
+    numberOfGuests: +validatedFields.data.numberOfGuests,
+    capacity: +validatedFields.data.capacity,
+    accommodationId: data.accommodationId,
+  };
+  try {
+    await prisma.room.update({
+      data: newRoom,
+      where: {
+        id: roomId,
+      },
+    });
+  } catch (error) {
+    return {
+      error: true,
+      message: "Error updating room",
+    };
+  }
+
+  revalidatePath(`/admin/dashboard/accommodations/${data.accommodationId}`);
+  redirect(`/admin/dashboard/accommodations/${data.accommodationId}`);
+};
