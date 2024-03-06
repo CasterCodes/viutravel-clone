@@ -4,6 +4,10 @@ import { getAccommodationById } from "@/lib/data/accomodation";
 import { FC } from "react";
 import AccommodationRoomItem from "../../../admin_components/accommodation_room_item";
 import CreateRoomModal from "../../../admin_components/modals/create_room_modal";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import AccommodationOffer from "../../../admin_components/accommodation_offer";
+import { AccommodationWithDestination } from "@/types/accommodation.type";
 
 interface AdminSingleAccommodationProps {
   params: {
@@ -14,7 +18,10 @@ interface AdminSingleAccommodationProps {
 const AdminSingleAccommodation: FC<AdminSingleAccommodationProps> = async ({
   params: { accommodationId },
 }) => {
-  const accommodation = await getAccommodationById(accommodationId);
+  const accommodation: AccommodationWithDestination & {
+    offer: any;
+    rooms: any;
+  } = await getAccommodationById(accommodationId);
 
   return (
     <section className="flex flex-col space-y-4 md:flex-row justify-between md:space-x-6">
@@ -40,6 +47,7 @@ const AdminSingleAccommodation: FC<AdminSingleAccommodationProps> = async ({
           <h2 className="text-3xl font-semibold">Description</h2>
           <p>{accommodation.description}</p>
         </div>
+        <Separator className="my-8" />
         <div className="flex flex-col space-y-3 mt-8">
           <h2 className="text-3xl font-semibold">Destination Information</h2>
           <div>
@@ -51,6 +59,7 @@ const AdminSingleAccommodation: FC<AdminSingleAccommodationProps> = async ({
             <p className="text-">{accommodation.destination.location}</p>
           </div>
         </div>
+        <AccommodationOffer accommodation={accommodation} />
       </div>
       <aside className="w-full md:w-1/3 clas">
         <header className="flex flex-row justify-between bg-zinc-200/90 p-4 rounded-tl-sm rounded-tr-sm items-center">

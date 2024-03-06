@@ -46,8 +46,7 @@ model User {
 model Offer {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId
   name        String
-  description String?
-  discount    Float
+  startingFrom Int
   startDate   DateTime
   endDate     DateTime
   createdAt   DateTime  @default(now())
@@ -55,7 +54,7 @@ model Offer {
   offerId         String?  @unique @db.ObjectId
   
   // Define foreign key
-  offer           Accommodation?         @relation(fields: [offerId], references: [id])
+  accommodation          Accommodation?         @relation(fields: [offerId], references: [id])
 }
 
 

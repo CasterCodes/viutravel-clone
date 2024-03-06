@@ -1,4 +1,5 @@
 import {
+  AccommodationOfferSchema,
   AccommodationRoomSchema,
   AccommodationSchema,
 } from "@/schemas/accommodation.schema";
@@ -22,3 +23,5 @@ export type AccommodationWithDestination = {
 };
 
 export type AccommodationRoom = z.infer<typeof AccommodationRoomSchema>;
+
+export type AccommodatonOffer = z.infer<typeof AccommodationOfferSchema>;

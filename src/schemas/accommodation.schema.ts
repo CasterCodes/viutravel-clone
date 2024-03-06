@@ -30,3 +30,14 @@ export const AccommodationRoomSchema = z.object({
     .min(1, "Number of such rooms availabe is required")
     .transform((v) => Number(v)),
 });
+
+
+export const AccommodationOfferSchema = z.object({
+  name: z.string().min(1, "Offer title is required"),
+  startingFrom: z
+    .string()
+    .min(1, "Offer starting from")
+    .transform((v) => Number(v)),
+  startDate: z.date(),
+  endDate: z.date(),
+});

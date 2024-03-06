@@ -1,18 +1,23 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import React, { ReactNode } from "react";
 import FirstLogo from "../../../../../public/first-logo.svg";
 import { getCurrentUser } from "@/lib/data/auth";
 import { Button } from "@/components/ui/button";
+import { Hotel, Luggage } from "lucide-react";
+import { signOut } from "next-auth/react";
 
 const dashboardLinks = [
   {
     name: "Destinations",
     url: "/admin/dashboard/destinations",
+    icon: Luggage,
   },
   {
     name: "Accommodations",
     url: "/admin/dashboard/accommodations",
+    icon: Hotel,
   },
 ];
 
@@ -44,15 +49,21 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
             {dashboardLinks.map((link) => (
               <li key={link.name}>
                 <Link
-                  className="text-muted-foreground inline-block w-full p-3 hover:bg-slate-400"
+                  className="text-neutral-800/90 flex flex-row items-center transition-all duration-400 space-x-2 w-full p-3 hover:bg-red-600/90 hover:text-white"
                   href={link.url}
                 >
-                  {link.name}
+                  <span>
+                    <link.icon />
+                  </span>
+                  <span>{link.name}</span>
                 </Link>
               </li>
             ))}
           </ul>
-          <Button className="rounded-none w-full bg-neutral-800  hover:bg-stone-800">
+          <Button
+            onClick={() => signOut()}
+            className="rounded-none w-full bg-neutral-800  hover:bg-stone-800"
+          >
             <span className="text-sm flex flex-row justify-center items-center space-z-2 font-medium">
               Logout
             </span>

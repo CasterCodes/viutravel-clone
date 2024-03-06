@@ -32,7 +32,6 @@ interface ProfileSettingsFormProps {
       id: string | null;
       username: string | null;
       email: string | null;
-      password: string | null;
       phone: string | null;
       createdAt: Date;
       updatedAt: Date;
