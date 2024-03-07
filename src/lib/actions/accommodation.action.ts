@@ -2,10 +2,15 @@
 import prisma from "../prisma";
 
 import {
+  AccommodationOfferSchema,
   AccommodationRoomSchema,
   AccommodationSchema,
 } from "@/schemas/accommodation.schema";
-import { Accommodation, AccommodationRoom } from "@/types/accommodation.type";
+import {
+  Accommodation,
+  AccommodationRoom,
+  AccommodatonOffer,
+} from "@/types/accommodation.type";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -129,4 +134,43 @@ export const updateAccommodationRoom = async (
 
   revalidatePath(`/admin/dashboard/accommodations/${data.accommodationId}`);
   redirect(`/admin/dashboard/accommodations/${data.accommodationId}`);
+};
+
+export const createAccommodationOffer = async (
+  data: AccommodatonOffer,
+  accommodationId: string
+) => {
+  const validatedFields = AccommodationOfferSchema.safeParse({
+    name: data.name,
+    startingFrom: data.startingFrom.toString(),
+    startDate: data.startDate,
+    endDate: data.endDate,
+  });
+
+  if (!validatedFields.success || !accommodationId) {
+    return {
+      error: true,
+      message: "Missing Fields. Failed to create room",
+    };
+  }
+
+  const offer = {
+    ...validatedFields.data,
+    accommodationId,
+  };
+
+  try {
+    await prisma.offer.create({
+      data: offer,
+    });
+  } catch (error) {
+    console.log({ ERROR_CREATING_OFFER: error });
+    return {
+      error: true,
+      message: "Error creating offer",
+    };
+  }
+
+  revalidatePath(`/admin/dashboard/accommodations/${accommodationId}`);
+  redirect(`/admin/dashboard/accommodations/${accommodationId}`);
 };

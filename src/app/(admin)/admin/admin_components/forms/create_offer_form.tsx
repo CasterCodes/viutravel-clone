@@ -26,8 +26,13 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { AccommodationOfferSchema } from "@/schemas/accommodation.schema";
+import { createAccommodationOffer } from "@/lib/actions/accommodation.action";
+import { useParams } from "next/navigation";
+import toast from "react-hot-toast";
 
 const CreateOfferForm = () => {
+  const { accommodationId } = useParams<{ accommodationId: string }>();
+
   const form = useForm<AccommodatonOffer>({
     mode: "onChange",
     defaultValues: {
@@ -44,8 +49,12 @@ const CreateOfferForm = () => {
     formState: { errors, isSubmitting },
   } = form;
 
-  const handleCreateOffer: SubmitHandler<AccommodatonOffer> = (data) => {
-    console.log({ data });
+  const handleCreateOffer: SubmitHandler<AccommodatonOffer> = async (data) => {
+    const result = await createAccommodationOffer(data, accommodationId);
+
+    if (result && result.error) {
+      toast.error(result.message);
+    }
   };
 
   return (
@@ -159,7 +168,9 @@ const CreateOfferForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button disabled={isSubmitting} type="submit">
+          {isSubmitting ? "Creating" : "Create"}
+        </Button>
       </form>
     </Form>
   );

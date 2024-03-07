@@ -20,6 +20,14 @@ export type AccommodationWithDestination = {
     description: string;
     location: string;
   };
+  offer?: {
+    id: string;
+    name: string;
+    startingFrom: string;
+    startDate: string;
+    endDate: string;
+    accommodationId: string;
+  };
 };
 
 export type AccommodationRoom = z.infer<typeof AccommodationRoomSchema>;

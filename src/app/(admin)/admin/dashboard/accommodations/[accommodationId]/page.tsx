@@ -18,10 +18,7 @@ interface AdminSingleAccommodationProps {
 const AdminSingleAccommodation: FC<AdminSingleAccommodationProps> = async ({
   params: { accommodationId },
 }) => {
-  const accommodation: AccommodationWithDestination & {
-    offer: any;
-    rooms: any;
-  } = await getAccommodationById(accommodationId);
+  const accommodation = await getAccommodationById(accommodationId);
 
   return (
     <section className="flex flex-col space-y-4 md:flex-row justify-between md:space-x-6">
@@ -62,7 +59,7 @@ const AdminSingleAccommodation: FC<AdminSingleAccommodationProps> = async ({
         <AccommodationOffer accommodation={accommodation} />
       </div>
       <aside className="w-full md:w-1/3 clas">
-        <header className="flex flex-row justify-between bg-zinc-200/90 p-4 rounded-tl-sm rounded-tr-sm items-center">
+        <header className="flex border-[1.5px] flex-row justify-between  p-4 rounded-sm items-center">
           <h2 className="text-2xl capitalize font-bold leading-snug">rooms</h2>
           <CreateRoomModal />
         </header>

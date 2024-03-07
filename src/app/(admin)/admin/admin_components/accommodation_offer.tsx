@@ -6,9 +6,10 @@ import { Accommodation } from "@/types/accommodation.type";
 import React, { FC } from "react";
 import { useState } from "react";
 import CreateOfferForm from "./forms/create_offer_form";
+import { format } from "date-fns";
 
 interface AccommodationOfferProps {
-  accommodation: Accommodation & { offer: any };
+  accommodation: any;
 }
 
 const AccommodationOffer: FC<AccommodationOfferProps> = ({ accommodation }) => {
@@ -18,7 +19,7 @@ const AccommodationOffer: FC<AccommodationOfferProps> = ({ accommodation }) => {
     <div>
       <Separator className="my-8" />
       <div className="flex flex-col space-y-3 mt-8">
-        <div className="flex justify-between items-center flex-row">
+        <div className="flex  border-[1.5px] p-3 rounded-sm justify-between items-center flex-row">
           <h2 className="text-3xl font-semibold">Accommodation offer</h2>
           {accommodation.offer ? (
             <Button onClick={() => setEditActive(true)}>Update offer</Button>
@@ -28,7 +29,23 @@ const AccommodationOffer: FC<AccommodationOfferProps> = ({ accommodation }) => {
         </div>
         <div>
           {accommodation.offer ? (
-            <></>
+            <div className="flex flex-col space-y-3 p-1">
+              <h2>
+                <strong>Current offer name:</strong> {accommodation.offer.name}
+              </h2>
+              <h2>
+                <strong>Starting from: Ksh</strong>{" "}
+                {accommodation.offer.startingFrom}
+              </h2>
+              <h2>
+                <strong> Started on :</strong>{" "}
+                {format(accommodation.offer.startDate, "PPP")}
+              </h2>
+              <h2>
+                <strong>Ends on :</strong>{" "}
+                {format(accommodation.offer.endDate, "PPP")}
+              </h2>
+            </div>
           ) : (
             <>
               {createActive ? (

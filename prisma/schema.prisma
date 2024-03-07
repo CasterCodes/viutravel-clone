@@ -51,10 +51,10 @@ model Offer {
   endDate     DateTime
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  offerId         String?  @unique @db.ObjectId
+  accommodationId         String?  @unique @db.ObjectId
   
   // Define foreign key
-  accommodation          Accommodation?         @relation(fields: [offerId], references: [id])
+  accommodation          Accommodation?         @relation(fields: [accommodationId], references: [id])
 }
 
 
@@ -98,7 +98,6 @@ model Accommodation {
   destinationId   String @db.ObjectId
   offer Offer?
   destination     Destination @relation(fields: [destinationId], references: [id])
-  
 }
 
 
