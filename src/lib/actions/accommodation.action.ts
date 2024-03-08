@@ -174,3 +174,47 @@ export const createAccommodationOffer = async (
   revalidatePath(`/admin/dashboard/accommodations/${accommodationId}`);
   redirect(`/admin/dashboard/accommodations/${accommodationId}`);
 };
+
+
+export const updateAccommodationOffer = async (
+  data: AccommodatonOffer,
+  accommodationId: string,
+  offerId: string
+) => {
+  const validatedFields = AccommodationOfferSchema.safeParse({
+    name: data.name,
+    startingFrom: data.startingFrom.toString(),
+    startDate: data.startDate,
+    endDate: data.endDate,
+  });
+
+  if (!validatedFields.success || !accommodationId) {
+    return {
+      error: true,
+      message: "Missing Fields. Failed to updating room",
+    };
+  }
+
+  const offer = {
+    ...validatedFields.data,
+    accommodationId,
+  };
+
+  try {
+    await prisma.offer.update({
+      data: offer,
+      where: {
+        id: offerId,
+      },
+    });
+  } catch (error) {
+    console.log({ ERROR_UPDATING_OFFER: error });
+    return {
+      error: true,
+      message: "Error updating  offer",
+    };
+  }
+
+  revalidatePath(`/admin/dashboard/accommodations/${accommodationId}`);
+  redirect(`/admin/dashboard/accommodations/${accommodationId}`);
+};

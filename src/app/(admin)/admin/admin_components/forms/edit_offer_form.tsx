@@ -20,24 +20,40 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { createAccommodationOffer } from "@/lib/actions/accommodation.action";
+import {
+  createAccommodationOffer,
+  updateAccommodationOffer,
+} from "@/lib/actions/accommodation.action";
 import { cn } from "@/lib/utils";
 import { AccommodationOfferSchema } from "@/schemas/accommodation.schema";
 import { AccommodatonOffer } from "@/types/accommodation.type";
 import { CalendarIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
+import { FC } from "react";
 
-const CreateOfferForm = () => {
+interface EditFormOfferProps {
+  offer: {
+    id: string;
+    name: string;
+    startingFrom: string;
+    startDate: Date;
+    endDate: Date;
+  };
+
+  setEditActive: (value: boolean) => void;
+}
+
+const EditFormOffer: FC<EditFormOfferProps> = ({ offer, setEditActive }) => {
   const { accommodationId } = useParams<{ accommodationId: string }>();
 
   const form = useForm<AccommodatonOffer>({
     mode: "onChange",
     defaultValues: {
-      name: "",
-      startingFrom: 0,
-      startDate: new Date(),
-      endDate: new Date(),
+      name: offer.name ?? "",
+      startingFrom: +offer.startingFrom ?? 0,
+      startDate: offer.startDate ?? new Date(),
+      endDate: offer.endDate ?? new Date(),
     },
     resolver: zodResolver(AccommodationOfferSchema),
   });
@@ -48,11 +64,19 @@ const CreateOfferForm = () => {
   } = form;
 
   const handleCreateOffer: SubmitHandler<AccommodatonOffer> = async (data) => {
-    const result = await createAccommodationOffer(data, accommodationId);
+    const result = await updateAccommodationOffer(
+      data,
+      accommodationId,
+      offer.id
+    );
 
     if (result && result.error) {
       toast.error(result.message);
+      return;
     }
+
+    toast.success("Offer updated successfully");
+    setEditActive(false);
   };
 
   return (
@@ -167,11 +191,11 @@ const CreateOfferForm = () => {
           )}
         />
         <Button disabled={isSubmitting} type="submit">
-          {isSubmitting ? "Creating" : "Create"}
+          {isSubmitting ? "Updating" : "Update"}
         </Button>
       </form>
     </Form>
   );
 };
 
-export default CreateOfferForm;
+export default EditFormOffer;

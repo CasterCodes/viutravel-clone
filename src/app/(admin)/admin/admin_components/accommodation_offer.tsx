@@ -7,6 +7,7 @@ import React, { FC } from "react";
 import { useState } from "react";
 import CreateOfferForm from "./forms/create_offer_form";
 import { format } from "date-fns";
+import EditFormOffer from "./forms/edit_offer_form";
 
 interface AccommodationOfferProps {
   accommodation: any;
@@ -22,30 +23,44 @@ const AccommodationOffer: FC<AccommodationOfferProps> = ({ accommodation }) => {
         <div className="flex  border-[1.5px] p-3 rounded-sm justify-between items-center flex-row">
           <h2 className="text-3xl font-semibold">Accommodation offer</h2>
           {accommodation.offer ? (
-            <Button onClick={() => setEditActive(true)}>Update offer</Button>
+            <Button onClick={() => setEditActive((prev) => !prev)}>
+              {editActive ? "Cancel update" : "Update offer"}
+            </Button>
           ) : (
-            <Button onClick={() => setCreateActive(true)}>Create offer</Button>
+            <Button onClick={() => setCreateActive((prev) => !prev)}>
+              {createActive ? "Cancel creation" : "Create offer"}
+            </Button>
           )}
         </div>
         <div>
           {accommodation.offer ? (
-            <div className="flex flex-col space-y-3 p-1">
-              <h2>
-                <strong>Current offer name:</strong> {accommodation.offer.name}
-              </h2>
-              <h2>
-                <strong>Starting from: Ksh</strong>{" "}
-                {accommodation.offer.startingFrom}
-              </h2>
-              <h2>
-                <strong> Started on :</strong>{" "}
-                {format(accommodation.offer.startDate, "PPP")}
-              </h2>
-              <h2>
-                <strong>Ends on :</strong>{" "}
-                {format(accommodation.offer.endDate, "PPP")}
-              </h2>
-            </div>
+            <>
+              {editActive ? (
+                <EditFormOffer
+                  offer={accommodation.offer}
+                  setEditActive={setEditActive}
+                />
+              ) : (
+                <div className="flex flex-col space-y-3 p-1">
+                  <h2>
+                    <strong>Current offer name:</strong>{" "}
+                    {accommodation.offer.name}
+                  </h2>
+                  <h2>
+                    <strong>Starting from: Ksh</strong>{" "}
+                    {accommodation.offer.startingFrom}
+                  </h2>
+                  <h2>
+                    <strong> Started on :</strong>{" "}
+                    {format(accommodation.offer.startDate, "PPP")}
+                  </h2>
+                  <h2>
+                    <strong>Ends on :</strong>{" "}
+                    {format(accommodation.offer.endDate, "PPP")}
+                  </h2>
+                </div>
+              )}
+            </>
           ) : (
             <>
               {createActive ? (
