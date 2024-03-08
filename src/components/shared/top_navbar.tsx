@@ -29,7 +29,7 @@ const TopNavBar = () => {
   return (
     <nav className="fixed w-full z-50 top-0">
       <TopBar />
-      <div className="bg-neutral-900 flex flex-col md:flex-row md:items-center justify-between px-4 md:px-24 ">
+      <div className="bg-neutral-900 flex flex-col md:flex-row md:items-center justify-between px-4 md:px-8 ">
         <ul className="flex py-3 flex-col md:flex-row md:items-center md:space-x-2">
           <li>
             <Link href={"/"} className="text-4xl font-bold text-red-700">
@@ -79,7 +79,7 @@ const TopNavBar = () => {
 
 const TopBar = () => {
   return (
-    <div className="bg-stone-800 py-2 flex-col px-4 md:px-24 flex md:flex-row justify-between md:items-center">
+    <div className="bg-stone-800 py-2 flex-col px-4 md:px-8 flex md:flex-row justify-between md:items-center">
       <ul className="flex flex-row items-center space-x-4">
         <li className="flex flex-row space-x-2 text-white cursor-pointer text-xs items-center hover:text-red-700">
           <Phone className="text-xs" size={14} />

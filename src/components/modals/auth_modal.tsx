@@ -28,7 +28,7 @@ const AuthModal: FC<AuthModalProps> = ({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{triggerButton}</AlertDialogTrigger>
-      <AlertDialogContent className="max-w-[70vw] min-h-[80vh] top-[55%] rounded-sm p-0 shadow-none border-none">
+      <AlertDialogContent className="max-w-[70vw] min-h-[80vh] top-[55%] bg-slate-100 rounded-sm p-0 shadow-none border-none">
         <div className="absolute right-2 top-2">
           <AlertDialogCancel className="h-11 w-11 rounded-full bg-neutral-900 text-white border-none hover:bg-neutral-900 hover:text-white">
             <X size={14} />

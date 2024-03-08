@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import AccommodationOffer from "../../../admin_components/accommodation_offer";
 import { AccommodationWithDestination } from "@/types/accommodation.type";
+import { notFound } from "next/navigation";
 
 interface AdminSingleAccommodationProps {
   params: {
@@ -19,6 +20,10 @@ const AdminSingleAccommodation: FC<AdminSingleAccommodationProps> = async ({
   params: { accommodationId },
 }) => {
   const accommodation = await getAccommodationById(accommodationId);
+
+  if (!accommodation) {
+    return notFound();
+  }
 
   return (
     <section className="flex flex-col space-y-4 md:flex-row justify-between md:space-x-6">

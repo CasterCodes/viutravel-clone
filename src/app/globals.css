@@ -4,7 +4,7 @@
  
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: rgb(177, 43, 43);
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -71,6 +71,31 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-slate-100 text-foreground;
   }
+
+  
 }
+
+
+.react-multiple-carousel__arrow {
+    background-color: #000 !important;
+    padding:16px !important;
+    height: 60px;
+    width: 60px;
+    border-radius: 100%;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    transform: scale(1);
+   
+   
+  }
+
+  .react-multiple-carousel__arrow:hover {
+     background-color: #e42329 !important;
+    transition: all .2s cubic-bezier(.175,.885,.32,1.275);
+    transform: scale(1.2);
+  }
+
+  .react-multi-carousel-list {
+    margin-right: 24px;
+  }
