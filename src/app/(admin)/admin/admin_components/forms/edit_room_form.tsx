@@ -93,7 +93,10 @@ export const EditRoomForm: FC<EditRoomFormProps> = ({ room }) => {
 
     if (result && result.error) {
       toast.error(result.message);
+      return;
     }
+
+    toast.success("Room updated successfully");
   };
 
   return (

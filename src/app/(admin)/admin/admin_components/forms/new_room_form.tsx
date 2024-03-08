@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -34,7 +33,6 @@ import {
 } from "@/components/ui/command";
 import { createAccommodationRoom } from "@/lib/actions/accommodation.action";
 import { useParams } from "next/navigation";
-import { Accommodation } from "@prisma/client";
 import toast from "react-hot-toast";
 
 const roomTypes: string[] = [

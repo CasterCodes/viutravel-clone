@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Accommodation } from "@/types/accommodation.type";
 import React, { FC } from "react";
 import { useState } from "react";
 import CreateOfferForm from "./forms/create_offer_form";

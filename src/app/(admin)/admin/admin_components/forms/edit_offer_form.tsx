@@ -20,10 +20,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  createAccommodationOffer,
-  updateAccommodationOffer,
-} from "@/lib/actions/accommodation.action";
+import { updateAccommodationOffer } from "@/lib/actions/accommodation.action";
 import { cn } from "@/lib/utils";
 import { AccommodationOfferSchema } from "@/schemas/accommodation.schema";
 import { AccommodatonOffer } from "@/types/accommodation.type";
