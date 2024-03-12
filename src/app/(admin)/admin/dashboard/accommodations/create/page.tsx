@@ -127,7 +127,10 @@ const CreateAccommondationPage = () => {
 
     if (result && result.error) {
       toast.error(result.message);
+      return;
     }
+
+    toast.success("Accommodation created successfully");
   };
 
   return (

@@ -41,12 +41,11 @@ const DestinationPage = async () => {
       <div className="grid md:grid-cols-3 grid-cols-1 lg:grid-cols-4 gap-3">
         {destinations.map((destination) => (
           <Card key={destination.id} className="w-52 h-40 p-0 rounded-sm">
-            <CardContent className="p-0 relative rounded-sm">
+            <CardContent className="p-0 relative h-[120px] rounded-sm">
               <Image
                 src={destination.image}
                 alt={`${destination.name}-image`}
-                height={120}
-                width={208}
+                fill={true}
                 className="rounded-tr-sm rounded-tl-sm w-full h-auto"
               />
             </CardContent>

@@ -18,7 +18,10 @@ export function useDestinations() {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    
     async function getAllDestinations() {
+      if (destinations.length > 0) return;
+
       setLoading(true);
       try {
         const results: TDestination[] = await axios

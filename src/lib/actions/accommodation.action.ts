@@ -1,5 +1,6 @@
 "use server";
 import prisma from "../prisma";
+var slugify = require("slugify");
 
 import {
   AccommodationOfferSchema,
@@ -35,13 +36,24 @@ export const createAccommodation = async (
 
   const amenities = accommodation.amenities.map((amenity) => amenity.value);
 
+  let accommodationId = null;
+
   try {
-    await prisma.accommodation.create({
+    const data = await prisma.accommodation.create({
       data: {
         ...validatedFields.data,
         amenities,
+        imageUrls: accommodation.imageUrls,
+        slug: slugify(validatedFields.data.name, {
+          replacement: "-",
+          remove: undefined,
+          lower: true,
+          strict: false,
+        }),
       },
     });
+
+    accommodationId = data.id;
   } catch (error) {
     console.log({ ACCOMMODATION_CREATION_ERROR: error });
     return {
@@ -51,7 +63,10 @@ export const createAccommodation = async (
   }
 
   revalidatePath("/admin/dashboard/accommodations");
-  redirect("/admin/dashboard/accommodations?create=true");
+
+  if (accommodationId) {
+    redirect(`/admin/dashboard/accommodations/${accommodationId}`);
+  }
 };
 
 export const createAccommodationRoom = async (
@@ -83,6 +98,7 @@ export const createAccommodationRoom = async (
       data: newRoom,
     });
   } catch (error) {
+    console.log({ ERROR_CREATING_ROOM: error });
     return {
       error: true,
       message: "Error creating room",

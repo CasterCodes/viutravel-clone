@@ -74,13 +74,15 @@ model Destination {
 model Room {
   id              String          @id @default(auto()) @map("_id") @db.ObjectId
   pricePerNight   Float
-  roomType  String @unique
+  roomType  String 
   numberOfGuests Int
   capacity        Int
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
   accommodationId String @db.ObjectId
   accommodation   Accommodation  @relation(fields: [accommodationId], references: [id])
+
+  @@unique([roomType, accommodationId])
 }
 
 
@@ -94,6 +96,7 @@ model Accommodation {
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   imageUrls String[]
+  slug String @unique
   rooms Room[]
   destinationId   String @db.ObjectId
   offer Offer?

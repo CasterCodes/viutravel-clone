@@ -71,6 +71,7 @@ export const NewRoomForm = () => {
 
   const {
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = form;
 
@@ -86,7 +87,12 @@ export const NewRoomForm = () => {
 
     if (result && result.error) {
       toast.error(result.message);
+      return;
     }
+
+    toast.success("Accommodation room created successfully");
+
+    reset();
   };
 
   return (

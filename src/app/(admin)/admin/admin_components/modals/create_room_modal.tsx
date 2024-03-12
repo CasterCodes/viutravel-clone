@@ -18,7 +18,7 @@ const CreateRoomModal = () => {
           Create
         </Button>
       </SheetTrigger>
-      <SheetContent className="min-w-[40vw] overflow-auto">
+      <SheetContent className="min-w-[40vw] overflow-auto bg-slate-100">
         <SheetHeader>
           <SheetTitle className="text-3xl ">Create room</SheetTitle>
         </SheetHeader>
