@@ -13,7 +13,10 @@ const ExplorePropertyTypesClient: FC<ExplorePropertyTypesClientProps> = ({
   return (
     <CustomCarousel title="Explore Property Types">
       {accommodations.map((accommodation) => (
-        <ExplorePropertyItem explore={accommodation} />
+        <ExplorePropertyItem
+          key={accommodation.accommodation?.id}
+          explore={accommodation}
+        />
       ))}
     </CustomCarousel>
   );

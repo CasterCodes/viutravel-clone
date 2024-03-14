@@ -1,8 +1,10 @@
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "./auth";
 import prisma from "../../lib/prisma";
+import { unstable_noStore as noStore } from "next/cache";
 
 export const getUserProfile = async () => {
+  noStore();
   try {
     const user = await getCurrentUser();
 

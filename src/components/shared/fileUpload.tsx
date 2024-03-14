@@ -61,9 +61,10 @@ const FileUpload: FC<FileUploadProps<string | null, string, string>> = ({
               )}
             >
               {multiple && uploadUrls?.length !== 0 ? (
-                <div className="flex flex-row space-x-3 space-y-3">
+                <div className="flex flex-row flex-wrap  space-x-3 space-y-3">
                   {uploadUrls?.map((url) => (
                     <Image
+                      key={url}
                       alt="Destination create image"
                       src={url}
                       className="rounded-sm"
