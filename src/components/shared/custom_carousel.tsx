@@ -11,7 +11,7 @@ interface CustomCarouselProps {
 
 const CustomCarousel: FC<CustomCarouselProps> = ({ title, children }) => {
   return (
-    <section className="md:px-6 ">
+    <section className="md:px-6 mt-8 ">
       <div className="md:my-4 md:px-6">
         <h2 className="text-3xl font-bold">{title}</h2>
       </div>

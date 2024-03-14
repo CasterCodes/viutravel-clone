@@ -57,3 +57,73 @@ export const getAccommodationsHotDeals = async () => {
     throw new Error("Error getting hot deals");
   }
 };
+
+
+export const getExplorePropertyTypes = async () => {
+  try {
+    const accommodationsWithCounts = await prisma.accommodation.groupBy({
+      by: ["propertyType"],
+      _count: {
+        id: true, // Count the number of accommodations per property type
+      },
+    });
+
+    const uniqueAccommodations = [];
+
+    for (const group of accommodationsWithCounts) {
+      const accommodation = await prisma.accommodation.findFirst({
+        where: {
+          propertyType: group.propertyType, // Fetch the first accommodation for each property type
+        },
+        select: {
+          imageUrls: true,
+          propertyType: true,
+          slug: true,
+          name: true,
+          id: true,
+        },
+      });
+
+      uniqueAccommodations.push({
+        accommodation: accommodation,
+        count: group._count.id,
+      });
+    }
+
+    return uniqueAccommodations;
+  } catch (error) {
+    throw new Error("Error getting accommodation types");
+  }
+};
+
+
+export const getTopAccommondations = async () => {
+  try {
+    const accommodations = await prisma.accommodation.findMany({
+      distinct: ["propertyType"],
+      include: {
+        offer: {
+          where: {
+            OR: [
+              {
+                startingFrom: {
+                  gt: 10000,
+                },
+              },
+              {
+                startingFrom: {
+                  lt: 20000,
+                },
+              },
+            ],
+          },
+        },
+      },
+      take: 12,
+    });
+
+    return accommodations;
+  } catch (error) {
+    throw new Error("Error getting top accommodations");
+  }
+};

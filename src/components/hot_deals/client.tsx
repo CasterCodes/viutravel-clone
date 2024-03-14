@@ -1,11 +1,8 @@
 "use client";
-import React, { FC } from "react";
-import CustomCarousel from "../shared/custom_carousel";
-import Image from "next/image";
-import { MapPin } from "lucide-react";
-import Link from "next/link";
 import { Accommodation, AccommodatonOffer } from "@/types/accommodation.type";
+import { FC } from "react";
 import AccommodationItem from "../accommodation_item";
+import CustomCarousel from "../shared/custom_carousel";
 
 export type HotDealsType = AccommodatonOffer & {
   accommodation: Accommodation & { imageUrls: string[]; slug: string };
